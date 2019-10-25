@@ -51,14 +51,17 @@ class CartPoleSwingUpEnv(gym.Env):
             np.finfo(np.float32).max,
             np.finfo(np.float32).max])
 
-        self.action_space = spaces.Box(-1.0, 1.0, shape=(1,), dtype=float)
-        self.observation_space = spaces.Box(-high, high, dtype=float)
-
+        #self.action_space = spaces.Box(-1.0, 1.0, shape=(1,), dtype=float)
+        #self.observation_space = spaces.Box(-high, high, dtype=float)
+        self.action_space = spaces.Box(-1.0, 1.0, shape=(1,))
+        self.observation_space = spaces.Box(-high, high)
         self.seed()
         self.viewer = None
         self.state = None
 
         self.noise = 0
+
+        print(dir(self))
 
     def setEnv(self, envChange):
         '''

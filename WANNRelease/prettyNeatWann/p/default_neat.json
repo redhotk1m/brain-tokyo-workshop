@@ -1,5 +1,5 @@
 {
-    "task":"swingup",
+    "task": "swingup",
     "alg_nReps": 2,
     "alg_speciate": "neat",
     "alg_probMoo": 0.0,
@@ -26,5 +26,4 @@
     "spec_weightCoef": 0.5,
     "save_mod": 8,
     "bestReps": 20
-
 }

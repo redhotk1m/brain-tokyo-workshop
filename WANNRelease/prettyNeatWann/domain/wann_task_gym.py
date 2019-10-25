@@ -24,9 +24,13 @@ class WannGymTask(GymTask):
 
 
 # -- 'Weight Agnostic Network' evaluation -------------------------------- -- #
-  def setWeights(self, wVec, wVal):
+  def setWeights(self, wVec, wVal, isRandom=False):
     """Set single shared weight of network
-  
+
+    #wVals = [0.5,1.0,2.0]
+    #isRandomDist = [True, False]  ######################################
+
+
     Args:
       wVec    - (np_array) - weight matrix as a flattened vector
                 [N**2 X 1]
@@ -41,6 +45,12 @@ class WannGymTask(GymTask):
     dim = int(np.sqrt(np.shape(wVec)[0]))    
     cMat = np.reshape(wVec,(dim,dim))
     cMat[cMat!=0] = 1.0
+  
+
+###############################################################
+    #for iVal in range(wVals):
+     # for isRandom in isRandomDist:
+      #  wMat = self.setWeights(wVal[iVal],wVal,isRandom)
 
     # Assign value to all weights
     wMat = np.copy(cMat) * wVal 
@@ -48,7 +58,7 @@ class WannGymTask(GymTask):
 
 
   def getFitness(self, wVec, aVec, hyp, \
-                    seed=-1,nRep=False,nVals=6,view=False,returnVals=False):
+                    seed=-1,nRep=False,nVals=3,view=False,returnVals=False):
     """Get fitness of a single individual with distribution of weights
   
     Args:
@@ -72,18 +82,24 @@ class WannGymTask(GymTask):
     if nRep is False:
       nRep = hyp['alg_nReps']
 
-    # Set weight values to test WANN with
+    # Set weight values to test WANN with ######################################################
     if (hyp['alg_wDist'] == "standard") and nVals==6: # Double, constant, and half signal 
-      wVals = np.array((-2,-1.0,-0.5,0.5,1.0,2))
+      wVals = np.array((0.5,1.0,2.0))
+      wVals2 = np.array((0,0.4,0.8,1.2,1.6,2))
+      wVals3 = np.array((0.5,1.0,2.0))
     else:
-      wVals = np.linspace(-self.absWCap, self.absWCap ,nVals)
+      wVals = np.array((0.5,1.0,2.0))
+      #wVals = np.linspace(-self.absWCap, self.absWCap ,nVals)
 
 
     # Get reward from 'reps' rollouts -- test population on same seeds
     reward = np.empty((nRep,nVals))
+    isRandomDist = [True, False]
     for iRep in range(nRep):
       for iVal in range(nVals):
-        wMat = self.setWeights(wVec,wVals[iVal])
+        for isRandom in isRandomDist:
+          wMat = self.setWeights(wVec,wVals[iVal],isRandom)
+        #wMat = self.setWeights(wVec,wVals[iVal])
         if seed == -1:
           reward[iRep,iVal] = self.testInd(wMat, aVec, seed=seed,view=view)
         else:

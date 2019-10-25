@@ -115,7 +115,7 @@ def getLayer(wMat):
 def act(weights, aVec, nInput, nOutput, inPattern):
   """Returns FFANN output given a single input pattern
   If the variable weights is a vector it is turned into a square weight matrix.
-  
+
   Allows the network to return the result of several samples at once if given a matrix instead of a vector of inputs:
       Dim 0 : individual samples
       Dim 1 : dimensionality of pattern (# of inputs)
@@ -135,6 +135,8 @@ def act(weights, aVec, nInput, nOutput, inPattern):
                 [1 X nOutput] or [nSamples X nOutput]
   """
   # Turn weight vector into weight matrix
+  if np.any(aVec != 1):
+      print(aVec,"AVEC!@@@@@")
   if np.ndim(weights) < 2:
       nNodes = int(np.sqrt(np.shape(weights)[0]))
       wMat = np.reshape(weights, (nNodes, nNodes))
@@ -178,6 +180,7 @@ def applyAct(actId, x):
   case 9  -- Relu
   case 10 -- Cosine
   case 11 -- Squared
+  case 12 -- Negative Sigmoid unsigned
 
   Args:
     actId   - (int)   - key to look up table
@@ -188,6 +191,8 @@ def applyAct(actId, x):
     output  - (float) - value after activation is applied
               [? X ?] - same dimensionality as input
   """
+  #print(actId)
+  #print("Number above is the activationFunction ID, should be 6 for simgoid, 12 for negative sigmoid!")
   if actId == 1:   # Linear
     value = x
 
@@ -221,7 +226,10 @@ def applyAct(actId, x):
 
   elif actId == 11: # Squared
     value = x**2
-    
+
+  elif actId == 12: # Negative sigmoid
+    value = -((np.tanh(x/2.0) + 1.0)/2.0)
+ 
   else:
     value = x
 

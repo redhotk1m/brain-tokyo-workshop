@@ -1,4 +1,6 @@
 {
+    "ann_initAct": 6,
+    "ann_actRange": [6,12],
     "task":"swingup",
     "maxGen": 1024,
     "alg_nReps": 3,
