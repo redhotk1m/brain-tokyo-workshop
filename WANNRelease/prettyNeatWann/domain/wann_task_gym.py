@@ -21,6 +21,7 @@ class WannGymTask(GymTask):
     """
 
     GymTask.__init__(self, game, paramOnly, nReps)
+    #print(game, "gaaaaame")
 
 
 # -- 'Weight Agnostic Network' evaluation -------------------------------- -- #
@@ -58,7 +59,7 @@ class WannGymTask(GymTask):
 
 
   def getFitness(self, wVec, aVec, hyp, \
-                    seed=-1,nRep=False,nVals=3,view=False,returnVals=False):
+                    seed=-1,nRep=False,nVals=6,view=False,returnVals=False):
     """Get fitness of a single individual with distribution of weights
   
     Args:
@@ -84,26 +85,32 @@ class WannGymTask(GymTask):
 
     # Set weight values to test WANN with ######################################################
     if (hyp['alg_wDist'] == "standard") and nVals==6: # Double, constant, and half signal 
-      wVals = np.array((0.5,1.0,2.0))
-      wVals2 = np.array((0,0.4,0.8,1.2,1.6,2))
-      wVals3 = np.array((0.5,1.0,2.0))
+      wVals = np.array((0.5,1.0,2.0,0.5,1.0,2.0))
+      #wVals2 = np.array((0,0.4,0.8,1.2,1.6,2))
+      #wVals3 = np.array((0.5,1.0,2.0))
     else:
-      wVals = np.array((0.5,1.0,2.0))
+      wVals = np.array((0.5,1.0,2.0,0.5,1.0,2.0))
       #wVals = np.linspace(-self.absWCap, self.absWCap ,nVals)
 
 
     # Get reward from 'reps' rollouts -- test population on same seeds
     reward = np.empty((nRep,nVals))
-    isRandomDist = [True, False]
+    #reward = np.empty((nRep,nVals*2))
+    isRandomDist = [False, True]
+    #print(isRandomDist,"randDist")
     for iRep in range(nRep):
+      #for isRandom in isRandomDist:
       for iVal in range(nVals):
-        for isRandom in isRandomDist:
-          wMat = self.setWeights(wVec,wVals[iVal],isRandom)
+        #for isRandom in isRandomDist:
+        #wMat = self.setWeights(wVec,wVals[iVal],isRandom)
+        wMat = self.setWeights(wVec,wVals[iVal],isRandom=(iVal>2))
         #wMat = self.setWeights(wVec,wVals[iVal])
         if seed == -1:
+          #reward[iRep,iVal + int(isRandom)*nVals] = self.testInd(wMat, aVec, seed=seed,view=view)
           reward[iRep,iVal] = self.testInd(wMat, aVec, seed=seed,view=view)
         else:
           reward[iRep,iVal] = self.testInd(wMat, aVec, seed=seed+iRep,view=view)
+          #reward[iRep,iVal] = self.testInd(wMat, aVec, seed=seed+iRep,view=view)
           
     if returnVals is True:
       return np.mean(reward,axis=0), wVals

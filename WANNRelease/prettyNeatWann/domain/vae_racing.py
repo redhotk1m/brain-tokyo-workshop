@@ -7,7 +7,7 @@ from gym.envs.box2d.car_racing import CarRacing
 
 from vae.vae import ConvVAE
 
-from config import games
+from .config import games
 
 import json
 

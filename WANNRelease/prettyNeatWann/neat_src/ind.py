@@ -253,9 +253,11 @@ class Ind():
       return connG, nodeG, innov # No active connections, nothing to split
     connSplit  = connActive[np.random.randint(len(connActive))]
     
-    # Create new node
+    # Create new node#####################################################################
+    #print(p['ann_actRange'], "Dette er actRange i newNode ind.py")
     newActivation = p['ann_actRange'][np.random.randint(len(p['ann_actRange']))]
     newNode = np.array([[newNodeId, 3, newActivation]]).T
+    #print(newActivation, "Her er newActivation i new node! indpy")
     
     # Add connections to and from new node
     # -- Effort is taken to minimize disruption from node addition:

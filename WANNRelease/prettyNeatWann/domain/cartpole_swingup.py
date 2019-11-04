@@ -61,8 +61,6 @@ class CartPoleSwingUpEnv(gym.Env):
 
         self.noise = 0
 
-        print(dir(self))
-
     def setEnv(self, envChange):
         '''
         Changes the environment, envChange is the percent change of parameter

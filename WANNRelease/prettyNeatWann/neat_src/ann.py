@@ -135,8 +135,9 @@ def act(weights, aVec, nInput, nOutput, inPattern):
                 [1 X nOutput] or [nSamples X nOutput]
   """
   # Turn weight vector into weight matrix
-  if np.any(aVec != 1):
-      print(aVec,"AVEC!@@@@@")
+  #if np.any(aVec != 1 and aVec != 6 and aVec != 12):
+  #if np.any(np.greater(aVec,12)) == True:
+  #    print(aVec,"AVEC!@@@@@, ann.py")
   if np.ndim(weights) < 2:
       nNodes = int(np.sqrt(np.shape(weights)[0]))
       wMat = np.reshape(weights, (nNodes, nNodes))

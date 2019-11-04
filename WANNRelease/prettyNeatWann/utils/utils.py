@@ -23,6 +23,8 @@ def roulette(pArr):
 def listXor(b,c):
   """Returns elements in lists b and c they don't share
   """
+  b = list(b)
+  c = list(c)
   A = [a for a in b+c if (a not in b) or (a not in c)]
   return A
 

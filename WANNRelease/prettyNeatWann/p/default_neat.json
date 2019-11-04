@@ -3,7 +3,7 @@
     "alg_nReps": 2,
     "alg_speciate": "neat",
     "alg_probMoo": 0.0,
-    "alg_act": 5,
+    "alg_act": 0,
     "maxGen": 32,
     "popSize": 32,
     "prob_addConn": 0.05,

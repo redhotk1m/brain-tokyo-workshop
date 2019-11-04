@@ -1,9 +1,11 @@
 {
+    "ann_initAct": 6,
+    "ann_actRange": [6,12],
     "task":"vae_racing",
     "alg_nMean": 6,
     "alg_nReps": 2,
-    "maxGen": 1024,
+    "maxGen": 5,
     "popSize": 64,
     "prob_initEnable": 0.5,
-    "save_mod": 16
+    "save_mod": 5
 }

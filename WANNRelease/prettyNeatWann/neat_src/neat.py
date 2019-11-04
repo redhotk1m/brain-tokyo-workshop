@@ -134,7 +134,7 @@ class Neat():
       self.pop[i].rank = rank[i]
  
 
-def loadHyp(pFileName, printHyp=True):
+def loadHyp(pFileName, printHyp=False):
   """Loads hyperparameters from .json file
   Args:
       pFileName - (string) - file name of hyperparameter file
@@ -143,7 +143,7 @@ def loadHyp(pFileName, printHyp=True):
   Note: see p/hypkey.txt for detailed hyperparameter description
   """
   with open(pFileName) as data_file: hyp = json.load(data_file)
-  print(pFileName)
+  #print(pFileName)
   # Task hyper parameters
   task = GymTask(games[hyp['task']],paramOnly=True)
   hyp['ann_nInput']   = task.nInput
@@ -190,6 +190,8 @@ def updateHyp(hyp,pFileName=None):
       hyp['ann_actRange'] = task.actRange
     else:
       hyp['ann_actRange'] = np.full_like(task.actRange,hyp['alg_act'])
+	  
+    #print(hyp['ann_actRange'], "from neat.py")
 
 
 
