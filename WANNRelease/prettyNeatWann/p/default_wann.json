@@ -7,7 +7,7 @@
     "alg_probMoo": 0.80,
     "alg_act": 0,
     "alg_speciate": "none",
-    "maxGen": 200,
+    "maxGen": 1024,
     "popSize": 128,
     "prob_crossover": 0.0,
     "prob_mutAct":  0.50,

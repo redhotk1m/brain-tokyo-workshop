@@ -53,6 +53,11 @@ class WannGymTask(GymTask):
      # for isRandom in isRandomDist:
       #  wMat = self.setWeights(wVal[iVal],wVal,isRandom)
 
+	if isRandom:
+	  wVal = np.random.normal(loc=wVal, scale=wVal*0.5, size=cMat.shape)
+	  wVal[wVal < 0] = 0.0
+	  #s = np.random.normal(mu, sigma, 1000)
+	  
     # Assign value to all weights
     wMat = np.copy(cMat) * wVal 
     return wMat

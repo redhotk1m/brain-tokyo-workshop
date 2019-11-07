@@ -40,7 +40,12 @@ class VAERacing(CarRacing):
     super(VAERacing, self).__init__()
     self._internal_counter = 0
     self.z_size = games['vae_racing'].input_size
-    self.vae = ConvVAE(batch_size=1, z_size=self.z_size, gpu_mode=False, is_training=False, reuse=True)
+
+    #print("vae_racing.py z", self.z_size)
+
+    self.vae = ConvVAE(batch_size=1, z_size=self.z_size, gpu_mode=True, is_training=False, reuse=True)
+    #print("vae_racing.py vae", self.vae)
+    
     self.vae.load_json('vae/vae_'+str(self.z_size)+'.json')
     self.full_episode = full_episode
     high = np.array([np.inf] * self.z_size)
@@ -52,7 +57,22 @@ class VAERacing(CarRacing):
     self._internal_counter = 0
     self._has_rendered = False
     self.real_frame = None
-    return super(VAERacing, self).reset()
+    
+    obs = super(VAERacing, self).reset()
+    
+    result = np.copy(_process_frame(obs)).astype(np.float)/255.0
+    result = result.reshape(1, 64, 64, 3)
+    self.real_frame = result
+
+    mu, logvar = self.vae.encode_mu_logvar(result)
+    mu = mu[0]
+    logvar = logvar[0]
+    s = logvar.shape
+    z = mu + np.exp(logvar/2.0) * np.random.randn(*s)
+
+    if MU_MODE:
+      return mu
+    return z
 
   def render(self, mode='human', close=False):
     if mode == 'human' or mode == 'rgb_array':
@@ -60,7 +80,7 @@ class VAERacing(CarRacing):
     return super(VAERacing, self).render(mode=mode)
 
   def step(self, action):
-
+    #print("action", action)
     if not self._has_rendered:
       self.render("rgb_array")
       self._has_rendered = False
@@ -95,5 +115,6 @@ class VAERacing(CarRacing):
       done = True
 
     if MU_MODE:
+      #print("mu", mu)
       return mu, reward, done, {}
     return z, reward, done, {}
