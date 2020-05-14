@@ -2,11 +2,14 @@
 
 This repo contains research workshop materials released by the Google Brain team in Tokyo.
 
-#Bio-inspired WANN
+# Bio-inspired WANN
 We've designed the WANN algorithm to imitate how our brain creates a neural network.
 This is done by forcing our nodes to behave and relate to eachother in the same way neurons in our brains do.
 Link to research paper will be published soon.
 If you want our initial research paper first, email me at kim@adsl.no
+
+This project was done in my 5th semester of my bachelor.
+DATA3750 Applied AI and Data Science project.
 
 ### Weight Agnostic Neural Networks ###
 
